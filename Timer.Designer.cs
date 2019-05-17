@@ -37,6 +37,7 @@
 			this.projectListCombobox = new System.Windows.Forms.ComboBox();
 			this.addProjectTextbox = new System.Windows.Forms.TextBox();
 			this.openFile = new System.Windows.Forms.Button();
+			this.settingsButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// startStopTimerButton
@@ -102,12 +103,27 @@
 			this.openFile.UseVisualStyleBackColor = true;
 			this.openFile.Click += new System.EventHandler(this.openFile_Click);
 			// 
+			// settingsButton
+			// 
+			this.settingsButton.AccessibleDescription = "Settings Button";
+			this.settingsButton.AccessibleName = "Settings";
+			this.settingsButton.AccessibleRole = System.Windows.Forms.AccessibleRole.ButtonMenu;
+			this.settingsButton.BackgroundImage = global::TimerClient.Properties.Resources.settings_gear;
+			this.settingsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.settingsButton.Location = new System.Drawing.Point(105, 52);
+			this.settingsButton.Name = "settingsButton";
+			this.settingsButton.Size = new System.Drawing.Size(29, 23);
+			this.settingsButton.TabIndex = 6;
+			this.settingsButton.UseVisualStyleBackColor = true;
+			this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+			// 
 			// Timer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(234, 87);
+			this.Controls.Add(this.settingsButton);
 			this.Controls.Add(this.openFile);
 			this.Controls.Add(this.addProjectTextbox);
 			this.Controls.Add(this.projectListCombobox);
@@ -132,5 +148,6 @@
 		private System.Windows.Forms.ComboBox projectListCombobox;
 		private System.Windows.Forms.TextBox addProjectTextbox;
 		private System.Windows.Forms.Button openFile;
+		private System.Windows.Forms.Button settingsButton;
 	}
 }

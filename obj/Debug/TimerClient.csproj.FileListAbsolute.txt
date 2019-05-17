@@ -12,3 +12,4 @@ C:\Users\20000\Source\Repos\TimerClient\TimerClient\bin\Debug\TimerClient.exe.ma
 C:\Users\20000\Source\Repos\TimerClient\TimerClient\bin\Debug\TimerClient.application
 C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.exe.manifest
 C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.application
+C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.SettingsMenu.resources

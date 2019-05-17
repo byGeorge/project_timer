@@ -184,5 +184,11 @@ namespace TimerClient
 				Process.Start(logFileName);
 			}
 		}
+
+		private void settingsButton_Click(object sender, EventArgs e)
+		{
+			SettingsMenu settingsMenu = new SettingsMenu();
+			settingsMenu.Visible = true;
+		}
 	}
 }

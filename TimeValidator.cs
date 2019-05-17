@@ -52,6 +52,13 @@ namespace TimerClient
 					else
 						return returnString + mins;
 				}
+				else if (tempString.Length == 2)
+				{ // for 12, the return value will be 12:00 for 25, the returned string will be empty
+					if (int.Parse(tempString) <= 24)
+						return tempString + ":00";
+					else
+						return "";
+				}
 				else if (tempString.Length == 1) // for 5, the return value will be 05:00
 					return "0" + tempString + ":00";
 				else // otherwise we dont' have any numbers so we quit
@@ -184,7 +191,7 @@ namespace TimerClient
 				return; // nothing to convert
 
 			//to box//
-			if (toBox.Text != "")
+			if (toBox.Text != "" && toBox.Text.Substring(0,2) != "00")
 			{ 
 				string[] time = toBox.Text.Split(':');
 				int hours = int.Parse(time[0]);
@@ -197,12 +204,12 @@ namespace TimerClient
 			}
 			else if (toBox.Text.Substring(0, 2) == "00")
 			{ // 0000 hours is 12am
-				toBox.Text = "00" + toBox.Text.Substring(2);
+				toBox.Text = "12" + toBox.Text.Substring(2);
 				settingsMenu.toAmPmLabel.Text = "a.m.";
 			}
 
 			//from box//
-			if (fromBox.Text != "")
+			if (fromBox.Text != "" && fromBox.Text.Substring(0, 2) != "00")
 			{ 
 				string[] time = fromBox.Text.Split(':');
 				int hours = int.Parse(time[0]);

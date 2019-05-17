@@ -87,6 +87,7 @@
     <Compile Include="Timer.Designer.cs">
       <DependentUpon>Timer.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeValidator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -40,15 +40,15 @@
 			this.modeLabel = new System.Windows.Forms.Label();
 			this.darkModeButton = new System.Windows.Forms.RadioButton();
 			this.lightModeButton = new System.Windows.Forms.RadioButton();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.brightModeButton = new System.Windows.Forms.RadioButton();
+			this.timeType = new System.Windows.Forms.Panel();
+			this.Modes = new System.Windows.Forms.Panel();
+			this.highContrastModeButton = new System.Windows.Forms.RadioButton();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.fromAmPmLabel = new System.Windows.Forms.Label();
 			this.toAmPmLabel = new System.Windows.Forms.Label();
-			this.panel1.SuspendLayout();
-			this.panel2.SuspendLayout();
+			this.timeType.SuspendLayout();
+			this.Modes.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// hoursWorkedLabel
@@ -83,6 +83,7 @@
 			this.toTimeTextBox.Name = "toTimeTextBox";
 			this.toTimeTextBox.Size = new System.Drawing.Size(116, 20);
 			this.toTimeTextBox.TabIndex = 3;
+			this.toTimeTextBox.Leave += new System.EventHandler(this.toTimeTextBox_Leave);
 			// 
 			// hour24Button
 			// 
@@ -175,34 +176,34 @@
 			this.lightModeButton.Text = "Light";
 			this.lightModeButton.UseVisualStyleBackColor = true;
 			// 
-			// panel1
+			// timeType
 			// 
-			this.panel1.Controls.Add(this.hour24Button);
-			this.panel1.Controls.Add(this.hour12Button);
-			this.panel1.Location = new System.Drawing.Point(294, 7);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(80, 52);
-			this.panel1.TabIndex = 12;
+			this.timeType.Controls.Add(this.hour24Button);
+			this.timeType.Controls.Add(this.hour12Button);
+			this.timeType.Location = new System.Drawing.Point(294, 7);
+			this.timeType.Name = "timeType";
+			this.timeType.Size = new System.Drawing.Size(80, 52);
+			this.timeType.TabIndex = 12;
 			// 
-			// panel2
+			// Modes
 			// 
-			this.panel2.Controls.Add(this.brightModeButton);
-			this.panel2.Controls.Add(this.darkModeButton);
-			this.panel2.Controls.Add(this.lightModeButton);
-			this.panel2.Location = new System.Drawing.Point(19, 145);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(127, 75);
-			this.panel2.TabIndex = 13;
+			this.Modes.Controls.Add(this.highContrastModeButton);
+			this.Modes.Controls.Add(this.darkModeButton);
+			this.Modes.Controls.Add(this.lightModeButton);
+			this.Modes.Location = new System.Drawing.Point(19, 145);
+			this.Modes.Name = "Modes";
+			this.Modes.Size = new System.Drawing.Size(127, 75);
+			this.Modes.TabIndex = 13;
 			// 
-			// brightModeButton
+			// highContrastModeButton
 			// 
-			this.brightModeButton.AutoSize = true;
-			this.brightModeButton.Location = new System.Drawing.Point(3, 49);
-			this.brightModeButton.Name = "brightModeButton";
-			this.brightModeButton.Size = new System.Drawing.Size(58, 17);
-			this.brightModeButton.TabIndex = 12;
-			this.brightModeButton.Text = "Bright";
-			this.brightModeButton.UseVisualStyleBackColor = true;
+			this.highContrastModeButton.AutoSize = true;
+			this.highContrastModeButton.Location = new System.Drawing.Point(3, 49);
+			this.highContrastModeButton.Name = "highContrastModeButton";
+			this.highContrastModeButton.Size = new System.Drawing.Size(102, 17);
+			this.highContrastModeButton.TabIndex = 12;
+			this.highContrastModeButton.Text = "High Contrast";
+			this.highContrastModeButton.UseVisualStyleBackColor = true;
 			// 
 			// saveButton
 			// 
@@ -264,8 +265,8 @@
 			this.Controls.Add(this.fromAmPmLabel);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.saveButton);
-			this.Controls.Add(this.panel2);
-			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.Modes);
+			this.Controls.Add(this.timeType);
 			this.Controls.Add(this.modeLabel);
 			this.Controls.Add(this.largeTextButton);
 			this.Controls.Add(this.autoQuitButton);
@@ -278,10 +279,10 @@
 			this.ForeColor = System.Drawing.Color.LightGray;
 			this.Name = "SettingsMenu";
 			this.Text = "Settings";
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			this.panel2.ResumeLayout(false);
-			this.panel2.PerformLayout();
+			this.timeType.ResumeLayout(false);
+			this.timeType.PerformLayout();
+			this.Modes.ResumeLayout(false);
+			this.Modes.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -289,24 +290,24 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label hoursWorkedLabel;
-		private System.Windows.Forms.TextBox fromTimeTextBox;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox toTimeTextBox;
-		private System.Windows.Forms.RadioButton hour24Button;
-		private System.Windows.Forms.RadioButton hour12Button;
-		private System.Windows.Forms.CheckBox wakeAlertButton;
-		private System.Windows.Forms.CheckBox autoQuitButton;
-		private System.Windows.Forms.CheckBox largeTextButton;
-		private System.Windows.Forms.Label modeLabel;
-		private System.Windows.Forms.RadioButton darkModeButton;
-		private System.Windows.Forms.RadioButton lightModeButton;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.RadioButton brightModeButton;
-		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.Button cancelButton;
-		private System.Windows.Forms.Label fromAmPmLabel;
-		private System.Windows.Forms.Label toAmPmLabel;
+		internal System.Windows.Forms.Label hoursWorkedLabel;
+		internal System.Windows.Forms.TextBox fromTimeTextBox;
+		internal System.Windows.Forms.Label label1;
+		internal System.Windows.Forms.TextBox toTimeTextBox;
+		internal System.Windows.Forms.RadioButton hour24Button;
+		internal System.Windows.Forms.RadioButton hour12Button;
+		internal System.Windows.Forms.CheckBox wakeAlertButton;
+		internal System.Windows.Forms.CheckBox autoQuitButton;
+		internal System.Windows.Forms.CheckBox largeTextButton;
+		internal System.Windows.Forms.Label modeLabel;
+		internal System.Windows.Forms.RadioButton darkModeButton;
+		internal System.Windows.Forms.RadioButton lightModeButton;
+		internal System.Windows.Forms.Panel timeType;
+		internal System.Windows.Forms.Panel Modes;
+		internal System.Windows.Forms.RadioButton highContrastModeButton;
+		internal System.Windows.Forms.Button saveButton;
+		internal System.Windows.Forms.Button cancelButton;
+		internal System.Windows.Forms.Label fromAmPmLabel;
+		internal System.Windows.Forms.Label toAmPmLabel;
 	}
 }

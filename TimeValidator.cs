@@ -61,7 +61,7 @@ namespace TimerClient
 				}
 				else if (tempString.Length == 1) // for 5, the return value will be 05:00
 					return "0" + tempString + ":00";
-				else // otherwise we dont' have any numbers so we quit
+				else // otherwise we don't have any numbers so we quit
 					return "";
 
 				int minutes;

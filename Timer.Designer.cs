@@ -38,6 +38,8 @@
 			this.addProjectTextbox = new System.Windows.Forms.TextBox();
 			this.openFile = new System.Windows.Forms.Button();
 			this.settingsButton = new System.Windows.Forms.Button();
+			this.runningLabel = new System.Windows.Forms.Label();
+			this.nowLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// startStopTimerButton
@@ -45,9 +47,10 @@
 			this.startStopTimerButton.Location = new System.Drawing.Point(16, 52);
 			this.startStopTimerButton.Name = "startStopTimerButton";
 			this.startStopTimerButton.Size = new System.Drawing.Size(75, 23);
-			this.startStopTimerButton.TabIndex = 0;
+			this.startStopTimerButton.TabIndex = 3;
 			this.startStopTimerButton.Text = "Start";
 			this.startStopTimerButton.UseVisualStyleBackColor = true;
+			this.startStopTimerButton.Click += new System.EventHandler(this.startStopTimerButton_Click);
 			this.startStopTimerButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.startStopTimerButton_MouseClick);
 			// 
 			// projectNameLabel
@@ -59,7 +62,7 @@
 			this.projectNameLabel.Location = new System.Drawing.Point(13, 12);
 			this.projectNameLabel.Name = "projectNameLabel";
 			this.projectNameLabel.Size = new System.Drawing.Size(51, 13);
-			this.projectNameLabel.TabIndex = 1;
+			this.projectNameLabel.TabIndex = 0;
 			this.projectNameLabel.Text = "Project:";
 			// 
 			// addProjectButton
@@ -90,7 +93,7 @@
 			this.addProjectTextbox.Location = new System.Drawing.Point(70, 9);
 			this.addProjectTextbox.Name = "addProjectTextbox";
 			this.addProjectTextbox.Size = new System.Drawing.Size(121, 20);
-			this.addProjectTextbox.TabIndex = 4;
+			this.addProjectTextbox.TabIndex = 1;
 			this.addProjectTextbox.Visible = false;
 			// 
 			// openFile
@@ -113,9 +116,30 @@
 			this.settingsButton.Location = new System.Drawing.Point(105, 52);
 			this.settingsButton.Name = "settingsButton";
 			this.settingsButton.Size = new System.Drawing.Size(29, 23);
-			this.settingsButton.TabIndex = 6;
+			this.settingsButton.TabIndex = 4;
 			this.settingsButton.UseVisualStyleBackColor = true;
 			this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+			// 
+			// runningLabel
+			// 
+			this.runningLabel.AutoSize = true;
+			this.runningLabel.ForeColor = System.Drawing.Color.LightGray;
+			this.runningLabel.Location = new System.Drawing.Point(13, 36);
+			this.runningLabel.Name = "runningLabel";
+			this.runningLabel.Size = new System.Drawing.Size(86, 13);
+			this.runningLabel.TabIndex = 6;
+			this.runningLabel.Text = "0:00:00 Stopped";
+			this.runningLabel.Visible = false;
+			// 
+			// nowLabel
+			// 
+			this.nowLabel.AutoSize = true;
+			this.nowLabel.ForeColor = System.Drawing.Color.LightGray;
+			this.nowLabel.Location = new System.Drawing.Point(141, 36);
+			this.nowLabel.Name = "nowLabel";
+			this.nowLabel.Size = new System.Drawing.Size(62, 13);
+			this.nowLabel.TabIndex = 7;
+			this.nowLabel.Text = "Now: 13:30";
 			// 
 			// Timer
 			// 
@@ -123,6 +147,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(234, 87);
+			this.Controls.Add(this.nowLabel);
+			this.Controls.Add(this.runningLabel);
 			this.Controls.Add(this.settingsButton);
 			this.Controls.Add(this.openFile);
 			this.Controls.Add(this.addProjectTextbox);
@@ -141,13 +167,15 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button startStopTimerButton;
-		private System.Windows.Forms.Timer projectTimer;
-		private System.Windows.Forms.Label projectNameLabel;
-		private System.Windows.Forms.Button addProjectButton;
-		private System.Windows.Forms.ComboBox projectListCombobox;
-		private System.Windows.Forms.TextBox addProjectTextbox;
-		private System.Windows.Forms.Button openFile;
-		private System.Windows.Forms.Button settingsButton;
+		internal System.Windows.Forms.Button startStopTimerButton;
+		internal System.Windows.Forms.Timer projectTimer;
+		internal System.Windows.Forms.Label projectNameLabel;
+		internal System.Windows.Forms.Button addProjectButton;
+		internal System.Windows.Forms.ComboBox projectListCombobox;
+		internal System.Windows.Forms.TextBox addProjectTextbox;
+		internal System.Windows.Forms.Button openFile;
+		internal System.Windows.Forms.Button settingsButton;
+		internal System.Windows.Forms.Label runningLabel;
+		public System.Windows.Forms.Label nowLabel;
 	}
 }

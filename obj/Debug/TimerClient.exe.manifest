@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TimerClient.exe" size="25032">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TimerClient.exe" size="33224">
       <assemblyIdentity name="TimerClient" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3Hx0ybNuczpfe5eqIXa6vN8uZHbZKAGQv39emfGnW6w=</dsig:DigestValue>
+        <dsig:DigestValue>yMIyLgwvkrAfsSqwgHSy1SBzKO90kl1Widqh1Hbgkbc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

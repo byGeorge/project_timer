@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TimerClient
@@ -10,9 +11,20 @@ namespace TimerClient
 		protected string state = "Ready";
 		protected string logFileName;
 		protected string projectsFileName = "projectList.txt";
+		private static DateTime startWork = new DateTime();
+		private static DateTime stopWork = new DateTime();
+		private static int timeFormat = 24;
+		private static bool startAlert = false;
+		private static bool stopAlert = false;
+		private static bool largeText = false;
+		private static string mode = "Dark";
+		internal TimeSpan elapsedTime;
+
 		DateTime startTime;
 		public Timer()
 		{
+			DateTime now = new DateTime();
+			logFileName = now.Year.ToString() + "_" + now.Month.ToString() + ".txt";
 			InitializeComponent();
 		}
 
@@ -38,7 +50,8 @@ namespace TimerClient
 			{
 				addProject();
 			}
-
+			UpdateSettings();
+			setInterval(SetTimeNow, 1000);
 		}
 
 		private void addProjectButton_MouseClick(object sender, MouseEventArgs e)
@@ -55,6 +68,36 @@ namespace TimerClient
 			startStopTimerButton.Text = "Add Project";
 		}
 
+		private string FormatElapsedTime()
+		{
+			int mins = elapsedTime.Minutes;
+			string minutes = mins.ToString();
+			if (mins < 10)
+				minutes = "0" + minutes;
+			int secs = elapsedTime.Seconds;
+			string seconds = secs.ToString();
+			if (secs < 10)
+				seconds = "0" + seconds;
+			return elapsedTime.Hours + ":" + minutes + ":" + seconds;
+		}
+
+		private async void RunningLabelStart()
+		{
+			while (state == "Running")
+			{
+				runningLabel.Text = await RunningLabelRun();
+			}
+			runningLabel.Text = FormatElapsedTime() + " Stopped";
+		}
+
+		private async Task<string> RunningLabelRun()
+		{
+			DateTime curTime = DateTime.Now;
+			elapsedTime = curTime - startTime;
+			await Task.Delay(1000);
+			return FormatElapsedTime() + " Running";
+		}
+
 		private void startStopTimerButton_MouseClick(object sender, MouseEventArgs e)
 		{
 			if (state == "Ready")
@@ -67,6 +110,9 @@ namespace TimerClient
 					startStopTimerButton.Text = "Stop";
 					state = "Running";
 					projectListCombobox.Enabled = false;
+					runningLabel.Visible = true;
+					runningLabel.Text = "0:00:00 Running";
+					RunningLabelStart();
 				}
 				else
 					projectListCombobox.DroppedDown = true;
@@ -112,6 +158,151 @@ namespace TimerClient
 				}
 				projectListCombobox.Items.Add(entry);
 			}
+		}
+
+		internal static void UpdateSettings()
+		{
+			string settings;
+			string[] settingsArray = new string[0];
+			try
+			{
+				settings = File.ReadAllText("settings.txt");
+				settingsArray = settings.Split('|');
+			}
+			catch (FileNotFoundException exc)
+			{
+				Console.WriteLine(exc.StackTrace);
+			}
+			if (settingsArray.Length > 0)
+			{
+				string wStart = settingsArray[0]; // work time start
+				string wStop = settingsArray[1]; // work time stop
+				string frmat = settingsArray[2]; // time format
+				string aStart = settingsArray[3]; // alert at start?
+				string aStop = settingsArray[4]; // auto stop?
+				string lrg = settingsArray[5]; // large text?
+				string mde = settingsArray[6]; // colour scheme
+
+				DateTime today = DateTime.Now;
+				if (wStart != "")
+				{
+					string[] wStartArray = wStart.Split(':');
+					int hour = 0;
+					int.TryParse(wStartArray[0], out hour);
+					int minutes = 0;
+					int.TryParse(wStartArray[1], out minutes);
+					startWork = new DateTime(today.Year, today.Month, today.Day, hour, minutes, 0);
+				}
+
+				if (wStop != "")
+				{
+					string[] wStopArray = wStop.Split(':');
+					int hour = 0;
+					int.TryParse(wStopArray[0], out hour);
+					int minutes = 0;
+					int.TryParse(wStopArray[1], out minutes);
+					startWork = new DateTime(today.Year, today.Month, today.Day, hour, minutes, 0);
+				}
+
+				if (frmat == "12")
+				{
+					timeFormat = 12;
+				}
+				else if (frmat == "24")
+				{
+					timeFormat = 24;
+				}
+
+				if (aStart == "0")
+				{
+					startAlert = false;
+				}
+				else if (aStart == "1")
+				{
+					startAlert = true;
+				}
+
+				if (aStop == "0")
+				{
+					stopAlert = false;
+				}
+				else if (aStop == "1")
+				{
+					stopAlert = true;
+				}
+
+				if (lrg == "0")
+				{
+					largeText = false;
+				}
+				else if (lrg == "1")
+				{
+					largeText = true;
+				}
+
+				if (mde != "")
+				{
+					mode = mde;
+				}
+			}
+		}
+
+		public static async Task setInterval(Action action, int timeout)
+		{
+			action();
+			await Task.Delay(timeout);
+			await setInterval(action, timeout);
+		}
+
+		private void SetTimeNow()
+		{
+			DateTime now = DateTime.Now;
+			int hour = now.Hour;
+			string hours;
+			int minute = now.Minute;
+			string minutes = "";
+			if (minute < 10)
+			{
+				minutes = "0" + minute;
+			}
+			else
+			{
+				minutes = minute.ToString();
+			}
+			if (timeFormat == 12)
+			{
+				bool isEvening = false;
+				if (hour > 12)
+				{
+					hours = (hour - 12).ToString();
+					isEvening = true;
+				}
+				else
+				{
+					hours = hour.ToString();
+				}
+				if (isEvening)
+				{
+					minutes = minutes + "pm";
+				}
+				else
+				{
+					minutes = minutes + "am";
+				}
+			}
+			else
+			{
+				if (hour < 10)
+				{
+					hours = "0" + hour;
+				}
+				else
+				{
+					hours = hour.ToString();
+				}
+			}
+			string dt = "Now: " + hours + ":" + minutes;
+			nowLabel.Text = dt;
 		}
 
 		private void DoStop()
@@ -189,6 +380,11 @@ namespace TimerClient
 		{
 			SettingsMenu settingsMenu = new SettingsMenu();
 			settingsMenu.Visible = true;
+		}
+
+		private void startStopTimerButton_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

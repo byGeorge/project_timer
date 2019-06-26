@@ -9,7 +9,7 @@ namespace TimerClient
 {
 	static class Settings
 	{
-		static string[] settingsArray;
+		static string[] settingsArray = new string[0];
 		static bool initialised = false;
 
 		private static void GetSettingsFromFile()
@@ -28,6 +28,15 @@ namespace TimerClient
 				Console.WriteLine(e.StackTrace);
 			}
 			initialised = true;
+		}
+
+		internal static string[] GetSettings()
+		{
+			if (!initialised)
+			{
+				GetSettingsFromFile();
+			}
+			return settingsArray;
 		}
 
 		internal static bool WriteSettingsToFile()

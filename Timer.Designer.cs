@@ -176,6 +176,6 @@
 		internal System.Windows.Forms.Button openFile;
 		internal System.Windows.Forms.Button settingsButton;
 		internal System.Windows.Forms.Label runningLabel;
-		public System.Windows.Forms.Label nowLabel;
+		internal System.Windows.Forms.Label nowLabel;
 	}
 }

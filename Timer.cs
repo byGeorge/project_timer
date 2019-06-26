@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace TimerClient
 		private static int timeFormat = 24;
 		private static bool startAlert = false;
 		private static bool stopAlert = false;
+		private static string waitingToQuit = "";
 		private static bool largeText = false;
 		private static string mode = "Dark";
 		internal TimeSpan elapsedTime;
@@ -162,17 +164,7 @@ namespace TimerClient
 
 		internal static void UpdateSettings()
 		{
-			string settings;
-			string[] settingsArray = new string[0];
-			try
-			{
-				settings = File.ReadAllText("settings.txt");
-				settingsArray = settings.Split('|');
-			}
-			catch (FileNotFoundException exc)
-			{
-				Console.WriteLine(exc.StackTrace);
-			}
+			string[] settingsArray = Settings.GetSettings();
 			if (settingsArray.Length > 0)
 			{
 				string wStart = settingsArray[0]; // work time start
@@ -301,8 +293,56 @@ namespace TimerClient
 					hours = hour.ToString();
 				}
 			}
-			string dt = "Now: " + hours + ":" + minutes;
-			nowLabel.Text = dt;
+			string dt = hours + ":" + minutes;
+			nowLabel.Text = "Now: " + dt;
+			if (Equals(dt, Settings.GetSetting("WorkTimeStart")) && startAlert && state != "Running" )
+			{
+				WindowState = FormWindowState.Minimized;
+				WindowState = FormWindowState.Normal;
+				BringToFront();
+				Focus();
+				MessageBox.Show("Good Morning! \nWhat would you like to work on today?", "Wake Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			Thread t = null;
+			if (Equals(dt, Settings.GetSetting("WorkTimeStop")) && stopAlert && state == "Running" && waitingToQuit != "")
+			{
+				WindowState = FormWindowState.Minimized;
+				WindowState = FormWindowState.Normal;
+				BringToFront();
+				Focus();
+				
+				void ShowBox()
+				{
+					DialogResult mb = MessageBox.Show("Congratulations! You've reached the end of your work day.\nShould I stop the timer?", "Stop Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+					if (mb == DialogResult.Yes)
+					{
+						// if user clicks yes on the dialog
+						startStopTimerButton.PerformClick();
+					}
+					else
+					{
+						minute = (minute + 5);
+						if (minute > 60)
+						{
+							hour = hour + 1;
+							minute = minute % 60;
+						}
+						waitingToQuit = hour + ":" + minute;
+					}
+				}
+				t = new Thread(new ThreadStart(ShowBox));
+			}
+			else if (waitingToQuit != "")
+			{
+				string[] time = waitingToQuit.Split(':');
+				if (Equals(hour.ToString(), time[0]) && Equals(minute.ToString(), time[1]))
+				{
+					if (t.IsAlive && t != null)
+					{
+						t.Abort();
+					}
+				}
+			}
 		}
 
 		private void DoStop()

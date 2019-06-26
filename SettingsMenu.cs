@@ -19,6 +19,42 @@ namespace TimerClient
 		{
 			settingsMenu = this;
 			InitializeComponent();
+			LoadSettings();
+		}
+
+		private void LoadSettings()
+		{
+			string[] settings = Settings.GetSettings();
+			if (settings.Length > 0)
+			{
+				fromTimeTextBox.Text = settings[0];
+				toTimeTextBox.Text = settings[1];
+				if (settings[2] == "12")
+				{
+					hour12Button.Checked = true;
+				}
+				if (settings[3] == "1")
+				{
+					wakeAlertButton.Checked = true;
+				}
+				if (settings[4] == "1")
+				{
+					autoQuitButton.Checked = true;
+				}
+				if (settings[5] == "1")
+				{
+					largeTextButton.Checked = true;
+				}
+				if (settings[6] == "Light")
+				{
+					lightModeButton.Checked = true;
+				}
+				else if (settings[6] == "Contrast")
+				{
+					highContrastModeButton.Checked = true;
+				}
+			}
+
 		}
 
 		private void hour12Button_CheckedChanged(object sender, EventArgs e)
@@ -67,7 +103,7 @@ namespace TimerClient
 				TimeValidator.SetAmPm(this, time, "to");
 			}
 			toTimeTextBox.Text = TimeValidator.validateTime(time, this);
-			Settings.SetSetting("WorkTimeStart", toTimeTextBox.Text);
+			Settings.SetSetting("WorkTimeStop", toTimeTextBox.Text);
 		}
 
 		private void darkModeButton_CheckedChanged(object sender, EventArgs e)
@@ -140,7 +176,12 @@ namespace TimerClient
 		private void saveButton_MouseClick(object sender, MouseEventArgs e)
 		{
 			bool success = Settings.WriteSettingsToFile();
-			if (!success) {
+			if (success)
+			{
+				Timer.UpdateSettings();
+				this.Close();
+			}
+			else {
 				Task task = Task.Run(() => saveButton_MouseClick(sender, e));
 				if (task.Wait(TimeSpan.FromMilliseconds(50)))
 				{
@@ -170,11 +211,11 @@ namespace TimerClient
 		{
 			if (autoQuitButton.Checked)
 			{
-				Settings.SetSetting("AlertBeginning", "1");
+				Settings.SetSetting("AutoStop", "1");
 			}
 			else
 			{
-				Settings.SetSetting("AlertBeginning", "0");
+				Settings.SetSetting("AutoStop", "0");
 			}
 		}
 	}

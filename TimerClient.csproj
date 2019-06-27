@@ -73,6 +73,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessagePanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessagePanel.Designer.cs">
+      <DependentUpon>MessagePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +95,9 @@
       <DependentUpon>Timer.cs</DependentUpon>
     </Compile>
     <Compile Include="TimeValidator.cs" />
+    <EmbeddedResource Include="MessagePanel.resx">
+      <DependentUpon>MessagePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

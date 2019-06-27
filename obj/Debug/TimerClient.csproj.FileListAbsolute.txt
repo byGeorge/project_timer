@@ -13,3 +13,4 @@ C:\Users\20000\Source\Repos\TimerClient\TimerClient\bin\Debug\TimerClient.applic
 C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.exe.manifest
 C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.application
 C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.SettingsMenu.resources
+C:\Users\20000\Source\Repos\TimerClient\TimerClient\obj\Debug\TimerClient.MessagePanel.resources

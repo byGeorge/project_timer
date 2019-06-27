@@ -12,12 +12,14 @@ namespace TimerClient
 		protected string state = "Ready";
 		protected string logFileName;
 		protected string projectsFileName = "projectList.txt";
+		private static string[] projects = null;
 		private static DateTime startWork = new DateTime();
 		private static DateTime stopWork = new DateTime();
 		private static int timeFormat = 24;
 		private static bool startAlert = false;
 		private static bool stopAlert = false;
 		private static string waitingToQuit = "";
+		private static MessagePanel messagePanel;
 		private static bool largeText = false;
 		private static string mode = "Dark";
 		internal TimeSpan elapsedTime;
@@ -36,7 +38,7 @@ namespace TimerClient
 			if (File.Exists(projectsFileName))
 			{
 				string p = File.ReadAllText(projectsFileName);
-				string[] projects= p.Split(',');
+				projects= p.Split(',');
 				Array.Sort(projects);
 				foreach(var project in projects)
 				{
@@ -56,6 +58,11 @@ namespace TimerClient
 			setInterval(SetTimeNow, 1000);
 		}
 
+		internal void SetProject(string text)
+		{
+			throw new NotImplementedException();
+		}
+
 		private void addProjectButton_MouseClick(object sender, MouseEventArgs e)
 		{
 			addProject();
@@ -68,6 +75,11 @@ namespace TimerClient
 			addProjectTextbox.Text = "";
 			addProjectTextbox.Visible = true;
 			startStopTimerButton.Text = "Add Project";
+		}
+
+		internal static string[] getProjects()
+		{
+			return projects;
 		}
 
 		private string FormatElapsedTime()
@@ -128,10 +140,9 @@ namespace TimerClient
 			{
 				SendNewProject();
 			}
-
 		}
 
-		private void SendNewProject()
+		internal void SendNewProject()
 		{
 			projectListCombobox.Enabled = true;
 			addProjectTextbox.Visible = false;
@@ -295,58 +306,30 @@ namespace TimerClient
 			}
 			string dt = hours + ":" + minutes;
 			nowLabel.Text = "Now: " + dt;
-			if (Equals(dt, Settings.GetSetting("WorkTimeStart")) && startAlert && state != "Running" )
+			if (Equals(dt, Settings.GetSetting("WorkTimeStart")) && startAlert && state != "Running"  
+				&& (messagePanel == null || messagePanel.Visible == false))
 			{
 				WindowState = FormWindowState.Minimized;
 				WindowState = FormWindowState.Normal;
 				BringToFront();
 				Focus();
-				MessageBox.Show("Good Morning! \nWhat would you like to work on today?", "Wake Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				messagePanel = new MessagePanel("wake", this);
 			}
-			Thread t = null;
-			if (Equals(dt, Settings.GetSetting("WorkTimeStop")) && stopAlert && state == "Running" && waitingToQuit != "")
+
+			if (Equals(dt, Settings.GetSetting("WorkTimeStop")) && stopAlert && state == "Running" 
+				&& waitingToQuit == "" && (messagePanel == null || messagePanel.Visible == false))
 			{
 				WindowState = FormWindowState.Minimized;
 				WindowState = FormWindowState.Normal;
 				BringToFront();
 				Focus();
-				
-				void ShowBox()
-				{
-					DialogResult mb = MessageBox.Show("Congratulations! You've reached the end of your work day.\nShould I stop the timer?", "Stop Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-					if (mb == DialogResult.Yes)
-					{
-						// if user clicks yes on the dialog
-						startStopTimerButton.PerformClick();
-					}
-					else
-					{
-						minute = (minute + 5);
-						if (minute > 60)
-						{
-							hour = hour + 1;
-							minute = minute % 60;
-						}
-						waitingToQuit = hour + ":" + minute;
-					}
-				}
-				t = new Thread(new ThreadStart(ShowBox));
-			}
-			else if (waitingToQuit != "")
-			{
-				string[] time = waitingToQuit.Split(':');
-				if (Equals(hour.ToString(), time[0]) && Equals(minute.ToString(), time[1]))
-				{
-					if (t.IsAlive && t != null)
-					{
-						t.Abort();
-					}
-				}
+				messagePanel = new MessagePanel("sleep", this);
 			}
 		}
 
-		private void DoStop()
+		internal void DoStop()
 		{
+			projectListCombobox.Enabled = true;
 			projectTimer.Stop();
 			if (state == "Running")
 			{				

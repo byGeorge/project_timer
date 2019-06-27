@@ -50,7 +50,6 @@
 			this.startStopTimerButton.TabIndex = 3;
 			this.startStopTimerButton.Text = "Start";
 			this.startStopTimerButton.UseVisualStyleBackColor = true;
-			this.startStopTimerButton.Click += new System.EventHandler(this.startStopTimerButton_Click);
 			this.startStopTimerButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.startStopTimerButton_MouseClick);
 			// 
 			// projectNameLabel

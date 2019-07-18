@@ -11,12 +11,20 @@ using System.Windows.Forms;
 
 namespace TimerClient
 {
-
+	
 	public partial class SettingsMenu : Form
 	{
+		private Timer timer;
 		private SettingsMenu settingsMenu;
+
 		public SettingsMenu()
 		{
+			
+		}
+
+		public SettingsMenu(Timer t)
+		{
+			timer = t;
 			settingsMenu = this;
 			InitializeComponent();
 			LoadSettings();
@@ -178,14 +186,14 @@ namespace TimerClient
 			bool success = Settings.WriteSettingsToFile();
 			if (success)
 			{
-				Timer.UpdateSettings();
+				Timer.UpdateSettings(timer);
 				this.Close();
 			}
 			else {
 				Task task = Task.Run(() => saveButton_MouseClick(sender, e));
 				if (task.Wait(TimeSpan.FromMilliseconds(50)))
 				{
-					Timer.UpdateSettings();
+					Timer.UpdateSettings(timer);
 					this.Close();
 				}
 				else

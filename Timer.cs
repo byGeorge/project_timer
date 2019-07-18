@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace TimerClient
 			DateTime now = new DateTime();
 			logFileName = now.Year.ToString() + "_" + now.Month.ToString() + ".txt";
 			InitializeComponent();
+			//settingsButton.Text = "⚙";
 		}
 
 		private void TimerBoard_Load(object sender, EventArgs e)
@@ -54,13 +56,8 @@ namespace TimerClient
 			{
 				addProject();
 			}
-			UpdateSettings();
+			UpdateSettings(this);
 			setInterval(SetTimeNow, 1000);
-		}
-
-		internal void SetProject(string text)
-		{
-			throw new NotImplementedException();
 		}
 
 		private void addProjectButton_MouseClick(object sender, MouseEventArgs e)
@@ -173,8 +170,13 @@ namespace TimerClient
 			}
 		}
 
-		internal static void UpdateSettings()
+		internal static void UpdateSettings(Timer timer)
 		{
+			if (timer == null)
+			{
+				Console.WriteLine("UpdateSettings is a static method and requires an instance of Timer.");
+				return;
+			}
 			string[] settingsArray = Settings.GetSettings();
 			if (settingsArray.Length > 0)
 			{
@@ -204,7 +206,7 @@ namespace TimerClient
 					int.TryParse(wStopArray[0], out hour);
 					int minutes = 0;
 					int.TryParse(wStopArray[1], out minutes);
-					startWork = new DateTime(today.Year, today.Month, today.Day, hour, minutes, 0);
+					stopWork = new DateTime(today.Year, today.Month, today.Day, hour, minutes, 0);
 				}
 
 				if (frmat == "12")
@@ -233,15 +235,22 @@ namespace TimerClient
 				{
 					stopAlert = true;
 				}
-
+				Font pnf, sbf;
 				if (lrg == "0")
 				{
 					largeText = false;
+					pnf = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+					sbf = new System.Drawing.Font("Webdings", 9.75F);
 				}
-				else if (lrg == "1")
+				else 
 				{
 					largeText = true;
+					pnf = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+					sbf = new System.Drawing.Font("Webdings", 20F);
 				}
+				timer.Font = pnf;
+				timer.projectNameLabel.Font = pnf;
+				timer.settingsButton.Font = sbf;
 
 				if (mde != "")
 				{
@@ -307,7 +316,7 @@ namespace TimerClient
 			string dt = hours + ":" + minutes;
 			nowLabel.Text = "Now: " + dt;
 			if (Equals(dt, Settings.GetSetting("WorkTimeStart")) && startAlert && state != "Running"  
-				&& (messagePanel == null || messagePanel.Visible == false))
+				&& (messagePanel == null || messagePanel.Visible == false)&& now.Second == 0)
 			{
 				WindowState = FormWindowState.Minimized;
 				WindowState = FormWindowState.Normal;
@@ -317,7 +326,8 @@ namespace TimerClient
 			}
 
 			if (Equals(dt, Settings.GetSetting("WorkTimeStop")) && stopAlert && state == "Running" 
-				&& waitingToQuit == "" && (messagePanel == null || messagePanel.Visible == false))
+				&& waitingToQuit == "" && (messagePanel == null || messagePanel.Visible == false)
+				&& now.Second == 0)
 			{
 				WindowState = FormWindowState.Minimized;
 				WindowState = FormWindowState.Normal;
@@ -325,6 +335,22 @@ namespace TimerClient
 				Focus();
 				messagePanel = new MessagePanel("sleep", this);
 			}
+			if (messagePanel != null &&
+				(startWork.Minute + 1 == now.Minute || stopWork.Minute + 1 == now.Minute))
+			{
+				CloseMessagePanel();
+			}
+		}
+
+		private void CloseMessagePanel()
+		{
+				if (messagePanel.BackColor == Color.Navy && state == "Running")
+				{
+					DoStop();
+				}
+				messagePanel.Visible = false;
+				messagePanel.Dispose();
+				messagePanel = null;
 		}
 
 		internal void DoStop()
@@ -401,13 +427,8 @@ namespace TimerClient
 
 		private void settingsButton_Click(object sender, EventArgs e)
 		{
-			SettingsMenu settingsMenu = new SettingsMenu();
+			SettingsMenu settingsMenu = new SettingsMenu(this);
 			settingsMenu.Visible = true;
-		}
-
-		private void startStopTimerButton_Click(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

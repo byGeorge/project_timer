@@ -26,26 +26,22 @@ namespace TimerClient
 			timer = curTimer;
 			if (Equals(type, "wake"))
 			{
-				messagePanelText.Text = "Good Morning! \nWhat would you like to work on today?";
-				okayButton.Text = "OK";
-				closeButton.Text = "Cancel";
-				string[] projects = Timer.getProjects();
-				if (projects != null)
-				{
-					foreach (var project in projects)
-					{
-						projectListBox.Items.Add(project);
-					}
-				}
-				projectListBox.Visible = true;
+				messagePanelText.Text = "Hello! \n\nWhat would you like to work on?";
+				okayButton.Visible = false;
+				closeButton.Visible = true;
+				closeButton.Text = "Close";
+				BackColor = Color.Yellow;
 			}
 			else if (Equals(type, "sleep"))
 			{
-				messagePanelText.Text = "Congratulations! You've reached the end of your work day.\nShould I stop the timer?";
+				messagePanelText.Text = "Congratulations! You've reached \nthe end of your work day.\n\nShould I stop the timer?";
 				this.Text = "Wake Alert";
-				okayButton.Text = "Yes";
-				closeButton.Text = "No";
-				projectListBox.Visible = false;
+				okayButton.Visible = true;
+				closeButton.Visible = true;
+				BackColor = Color.Navy;
+				ForeColor = Color.White;
+				okayButton.ForeColor = Color.Navy;
+				closeButton.ForeColor = Color.Navy;
 			}
 			this.Visible = true;
 		}
@@ -64,7 +60,7 @@ namespace TimerClient
 		{
 			if (type == "wake")
 			{
-				timer.SetProject(projectListBox.Text);
+				timer.projectListCombobox.Focus();
 				this.Visible = false;
 			}
 			else if (type == "sleep")

@@ -32,7 +32,6 @@
 			this.messagePanelText = new System.Windows.Forms.Label();
 			this.okayButton = new System.Windows.Forms.Button();
 			this.closeButton = new System.Windows.Forms.Button();
-			this.projectListBox = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// messagePanelText
@@ -49,7 +48,7 @@
 			this.okayButton.Name = "okayButton";
 			this.okayButton.Size = new System.Drawing.Size(75, 23);
 			this.okayButton.TabIndex = 1;
-			this.okayButton.Text = "OK";
+			this.okayButton.Text = "Yes";
 			this.okayButton.UseVisualStyleBackColor = true;
 			this.okayButton.Click += new System.EventHandler(this.okayButton_Click);
 			// 
@@ -60,28 +59,18 @@
 			this.closeButton.Name = "closeButton";
 			this.closeButton.Size = new System.Drawing.Size(75, 23);
 			this.closeButton.TabIndex = 2;
-			this.closeButton.Text = "Cancel";
+			this.closeButton.Text = "No";
 			this.closeButton.UseMnemonic = false;
 			this.closeButton.UseVisualStyleBackColor = true;
 			this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
-			// 
-			// projectListBox
-			// 
-			this.projectListBox.FormattingEnabled = true;
-			this.projectListBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.projectListBox.Location = new System.Drawing.Point(13, 57);
-			this.projectListBox.Name = "projectListBox";
-			this.projectListBox.Size = new System.Drawing.Size(121, 21);
-			this.projectListBox.TabIndex = 3;
 			// 
 			// MessagePanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.closeButton;
-			this.ClientSize = new System.Drawing.Size(339, 119);
+			this.ClientSize = new System.Drawing.Size(176, 119);
 			this.ControlBox = false;
-			this.Controls.Add(this.projectListBox);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.okayButton);
 			this.Controls.Add(this.messagePanelText);
@@ -101,6 +90,5 @@
 		private System.Windows.Forms.Label messagePanelText;
 		private System.Windows.Forms.Button okayButton;
 		private System.Windows.Forms.Button closeButton;
-		private System.Windows.Forms.ComboBox projectListBox;
 	}
 }
